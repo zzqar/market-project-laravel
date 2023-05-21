@@ -19,7 +19,7 @@
                     @foreach ($products as $element)
                         <div class="col">
                             <div class="card h-100">
-                                <a href="#" class="text-decoration-none text-black">
+                                <a href="{{ route('productinfo', ['id' => $element->id]) }}" class="text-decoration-none text-black">
                                     <img src="{{ asset($element->image) }}" class="card-img-top"
                                          alt="{{ asset('images/no_icon.png') }}">
                                     <div class="card-body">
