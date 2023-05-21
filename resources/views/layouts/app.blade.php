@@ -66,8 +66,8 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">{{ __('Cоздать товар') }}</a>
-                                    <a class="dropdown-item" href="#">{{ __('Cоздать категорию') }}</a>
+                                    <a class="dropdown-item" href="{{ route('createProduct') }}">{{ __('Cоздать товар') }}</a>
+                                    <a class="dropdown-item" href="{{ route('createCategory') }}">{{ __('Cоздать категорию') }}</a>
                                 </div>
                             </li>
 

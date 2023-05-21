@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Forms\ProductForm;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductFavorit;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 
 class  ProductsViewController extends Controller
@@ -41,5 +44,33 @@ class  ProductsViewController extends Controller
             'products',
             'favorite'
         ));
+    }
+
+    /**
+     * @param FormBuilder $formBuilder
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(FormBuilder $formBuilder, Request $request): RedirectResponse
+    {
+        $form = $formBuilder->create(\App\Forms\ProductForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $path = $request->file('image')->store('uploads', 'public');
+
+        $product = Product::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'cost' => $request->cost,
+            'category_id' => $request->category_id,
+            'image' => '/storage/' . $path,
+        ]);
+// Установка сообщения об успешном сохранении во флэш-сессию
+        $request->session()->flash('success', "Товар '{$product->title}' успешно сохранен.");
+
+        return redirect()->route('createProduct');
     }
 }

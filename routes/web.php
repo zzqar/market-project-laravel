@@ -1,11 +1,16 @@
 <?php
 
+use App\Forms\CategoryForm;
+use App\Forms\ProductForm;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteProductController;
 use App\Http\Controllers\ProductsViewController;
 use App\Http\Controllers\SearchController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +27,36 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', [ProductsViewController::class, 'index'])->middleware('auth')->name('home');
 Route::get('/favorite', [FavoriteProductController::class, 'index'])->middleware('auth')->name('favorite');
 Route::get('/search', [SearchController::class, 'index'])->middleware('auth')->name('search');
+Route::get('/product/detail', static function (Request $request){
+    return view('product');
+})->middleware('auth')->name('productinfo');
+
+
+Route::namespace('form.')->middleware('auth')->group(function () {
+    Route::get('/product/create', static function (FormBuilder $formBuilder) {
+        $form = $formBuilder->create(ProductForm::class, [
+            'method' => 'POST',
+            'url' => \route('product'),
+        ]);
+        $name = "Товар";
+        return view('create', compact('form', 'name'));
+    })->name('createProduct');
+
+    Route::get('/category/create', static function (FormBuilder $formBuilder) {
+        $form = $formBuilder->create(CategoryForm::class, [
+            'method' => 'POST',
+            'url' => \route('category'),
+        ]);
+        $name = "Категория";
+        return view('create', compact('form', 'name'));
+    })->name('createCategory');
+});
+
+Route::namespace('create.')->middleware('auth')->group(function () {
+    Route::post('/product/store', [ProductsViewController::class, 'store'])->name('product');
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('category');
+});
+
 
 Auth::routes();
 

@@ -20,13 +20,11 @@
                         <div class="col">
                             <div class="card h-100">
                                 <a href="#" class="text-decoration-none text-black">
-                                    <img src="{{ asset('images/no_icon.png') }}" class="card-img-top"
+                                    <img src="{{ asset($element->image) }}" class="card-img-top"
                                          alt="{{ asset('images/no_icon.png') }}">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $element->title}}</h5>
-                                        <p class="card-text ">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This card has even longer content
-                                            than the first to show that equal height action.</p>
+                                        <h5 class="card-title">{{ $element->title }}</h5>
+                                        <p class="card-text ">{{ $element->description }}</p>
                                     </div>
                                 </a>
                                 <div class="card-footer">
