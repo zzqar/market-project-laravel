@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\FavoriteProductController;
+use App\Http\Controllers\ProductsViewController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -15,16 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//}
 
-//Route::get('/', [\App\Http\Controllers\GoodsViewController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/home', [ProductsViewController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/favorite', [FavoriteProductController::class, 'index'])->middleware('auth')->name('favorite');
+Route::get('/search', [SearchController::class, 'index'])->middleware('auth')->name('search');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 Route::get('/clear', static function () {
     Artisan::call('cache:clear');
@@ -33,4 +32,7 @@ Route::get('/clear', static function () {
     Artisan::call('route:clear');
     return "Кэш очищен.";
 });
+
+Route::post('/addToFavorites', [\App\Http\Controllers\AjaxController::class, 'addFavorite']);
+Route::post('/deleteToFavorites', [\App\Http\Controllers\AjaxController::class, 'deleteFavorite']);
 
