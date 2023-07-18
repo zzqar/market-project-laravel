@@ -17,7 +17,7 @@ class CategoryController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(FormBuilder $formBuilder, Request $request)
+    public function store(FormBuilder $formBuilder, Request $request): RedirectResponse
     {
         $form = $formBuilder->create(\App\Forms\CategoryForm::class);
 
@@ -36,22 +36,11 @@ class CategoryController extends Controller
 
     public function popularCategories()
     {
-        $categories = DB::table('categories as c')
-            ->select('c.*', DB::raw("'' as description"), DB::raw("COUNT(r.id) as count"))
-            ->join('products as p', 'p.category_id', '=', 'c.id')
-            ->join('reviews as r', 'r.product_id', '=', 'p.id')
-            ->groupBy('c.id')
-            ->orderBy('count', 'desc')
-            ->get();
+        $categories = Category::getInstance()->getPopularCategories();
+        $productModel = Product::getInstance();
 
-        $categories = json_decode(json_encode($categories), true);
-
-        foreach ($categories as &$category) {
-            $category['products'] =  $products = DB::table('products as p')
-                ->select('p.*', DB::raw("COUNT(r.id) as count"))
-                ->where('category_id', '=', $category['id'])
-                ->leftJoin('reviews as r', 'r.product_id', '=', 'p.id')
-                ->groupBy('p.id')->get();
+        foreach ($categories->toArray() as $category) {
+            $category->products = $productModel->getProductsByCategoryId($category->id);
         }
 
         return view('popular', [

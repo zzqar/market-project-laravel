@@ -7,7 +7,6 @@ use App\Http\Controllers\FavoriteProductController;
 use App\Http\Controllers\ProductsViewController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +22,9 @@ use Kris\LaravelFormBuilder\FormBuilder;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/', static function (){
+    return redirect('home');
+});
 
 Route::get('/home', [ProductsViewController::class, 'index'])->middleware('auth')->name('home');
 Route::get('/favorite', [FavoriteProductController::class, 'index'])->middleware('auth')->name('favorite');

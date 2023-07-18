@@ -15,7 +15,6 @@ class FavoriteProductController extends Controller
         $productIDs = array_column($favorite, 'product_id');
         $products = Product::whereIn('id', $productIDs)->get();
 
-
         return view('favorite', compact('products'));
     }
 }

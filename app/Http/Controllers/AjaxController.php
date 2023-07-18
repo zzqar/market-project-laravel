@@ -34,7 +34,9 @@ class AjaxController extends Controller
         $productId = $request->changedID;
 
         // Проверяем, существует ли уже запись в таблице "Избранное"
-        $existingFavorite = ProductFavorit::where('user_id', $userId)->where('product_id', $productId)->first();
+        $existingFavorite = ProductFavorit::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
 
         if ($existingFavorite) {
             $existingFavorite->delete();

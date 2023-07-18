@@ -11,7 +11,7 @@
             </div>
 
             <div class="col-md-6">
-                <h2>Add Review</h2>
+                <h2>Добавить отзыв</h2>
                 {!! form($form) !!}
 
                 @if ($errors->any())
@@ -26,7 +26,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-6">
-                <h2>Reviews</h2>
+                <h2>Отзывы</h2>
                 @foreach($reviews as $review)
                     <div class="card">
                         <div class="card-body">

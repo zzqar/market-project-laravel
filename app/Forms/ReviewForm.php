@@ -12,18 +12,18 @@ class ReviewForm extends Form
 
         $this
             ->add('content', 'textarea', [
-                'label' => 'Review:',
+                'label' => 'Коментарий:',
                 'attr' => ['rows' => 3],
                 'rules' => 'required',
                 'wrapper' => ['class' => 'mb-3'] // Add a CSS class to the wrapper div
             ])
             ->add('images', 'file', [
-                'label' => 'Images:',
+                'label' => 'Изображения:',
                 'attr' => ['accept' => 'image/*', 'multiple' => true],
                 'wrapper' => ['class' => 'mb-3'] // Add a CSS class to the wrapper div
             ])
             ->add('submit', 'submit', [
-                'label' => 'Submit Review',
+                'label' => 'Отправить',
                 'attr' => ['class' => 'btn btn-primary'],
                 'wrapper' => ['class' => 'mb-3'] // Add a CSS class to the wrapper div
             ]);
